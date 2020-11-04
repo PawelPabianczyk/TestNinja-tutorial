@@ -23,13 +23,21 @@ namespace TestNinja.UnitTests {
         }
 
         [Test]
-        public void DownloadInstaller_DownloadFails_ReturnFalse()
-        {
-            _fileDownloader.Setup(fd => fd.DownloadFile("http://example.com/customer/installer", null)).Throws<WebException>();
+        public void DownloadInstaller_DownloadFails_ReturnFalse() {
+            _fileDownloader.Setup(fd => fd.DownloadFile(It.IsAny<string>(), It.IsAny<string>())).Throws<WebException>();
 
             var result = _installerHelper.DownloadInstaller("customer", "installer");
 
             Assert.That(result, Is.False);
         }
+
+        [Test]
+        public void DownloadInstaller_DownloadCompletes_ReturnTrue() {
+            
+            var result = _installerHelper.DownloadInstaller("customer", "installer");
+
+            Assert.That(result, Is.True);
+        }
+
     }
 }
